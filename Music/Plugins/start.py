@@ -125,10 +125,10 @@ Untuk bantuan silahkan klik tombol dibawah.
 
 #💡 Untuk Mengetahui Semua Perintah Bot Dan Bagaimana Cara Kerja Nya Dengan Menekan Tombol » 📚 ᴄᴏᴍᴍᴀɴᴅ​!**
 
-#""",
-#            parse_mode="markdown",
-#            reply_markup=pstart_markup,
-#            reply_to_message_id=message.message_id,
+""",
+            parse_mode="markdown",
+            reply_markup=pstart_markup,
+            reply_to_message_id=message.message_id,
         )
     elif len(message.command) == 2:
         query = message.text.split(None, 1)[1]
