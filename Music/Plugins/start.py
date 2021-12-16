@@ -129,7 +129,7 @@ Untuk bantuan silahkan klik tombol dibawah.
 #            parse_mode="markdown",
 #            reply_markup=pstart_markup,
 #            reply_to_message_id=message.message_id,
-#        )
+        )
     elif len(message.command) == 2:
         query = message.text.split(None, 1)[1]
         f1 = query[0]
