@@ -111,26 +111,25 @@ Untuk bantuan silahkan klik tombol dibawah.
 
 
 #@Client.on_message(filters.private & filters.incoming & filters.command("start"))
-#async def play(_, message: Message):
-#    if len(message.command) == 1:
-#        user_id = message.from_user.id
-#        user_name = message.from_user.first_name
-#        rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
-#        await app.send_message(
-#            message.chat.id,
-#            text=f"""
-#**✨ Selamat Datang {rpk}!
+async def play(_, message: Message):
+    if len(message.command) == 1:
+        user_id = message.from_user.id
+        user_name = message.from_user.first_name
+        rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
+        await app.send_message(
+            message.chat.id,
+            text=f"""
+**✨ Selamat Datang {rpk}!
 
-#💬 [{BOT_NAME}](tg://user?id=2129034376) memungkinkan anda untuk memutar musik pada grup melalui obrolan suara yang baru di Telegram!
+💬 [{BOT_NAME}](tg://user?id=2129034376) memungkinkan anda untuk memutar musik pada grup melalui obrolan suara yang baru di Telegram!
 
-#💡 Untuk Mengetahui Semua Perintah Bot Dan Bagaimana Cara Kerja Nya Dengan Menekan Tombol » 📚 ᴄᴏᴍᴍᴀɴᴅ​!**
+💡 Untuk Mengetahui Semua Perintah Bot Dan Bagaimana Cara Kerja Nya Dengan Menekan Tombol » 📚 ᴄᴏᴍᴍᴀɴᴅ​!**
 
-#""",
-#            parse_mode="markdown",
-#            reply_markup=pstart_markup,
-#            reply_to_message_id=message.message_id,
-#        )
-
+""",
+            parse_mode="markdown",
+            reply_markup=pstart_markup,
+            reply_to_message_id=message.message_id,
+        )
     elif len(message.command) == 2:
         query = message.text.split(None, 1)[1]
         f1 = query[0]
