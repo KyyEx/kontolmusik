@@ -23,7 +23,7 @@ from Music.MusicUtilities.helpers.inline import (custommarkup, dashmarkup, setti
                           start_pannel, usermarkup, volmarkup)
 from Music.MusicUtilities.helpers.thumbnails import down_thumb
 from Music.MusicUtilities.helpers.ytdl import ytdl_opts
-from Music.MusicUtilities.tgcallsrun import Music
+from Music.MusicUtilities.tgcallsrun.music import pytgcalls
 from pyrogram import Client, filters
 from pyrogram.types import (
     InlineKeyboardButton,
@@ -269,7 +269,7 @@ async def start_markup_check(_, CallbackQuery):
         }
         volume = 25
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -285,7 +285,7 @@ async def start_markup_check(_, CallbackQuery):
         }
         volume = 50
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -301,7 +301,7 @@ async def start_markup_check(_, CallbackQuery):
         }
         volume = 100
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -317,7 +317,7 @@ async def start_markup_check(_, CallbackQuery):
         }
         volume = 200
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -339,7 +339,7 @@ async def start_markup_check(_, CallbackQuery):
             "volume": volume,
         }
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -361,7 +361,7 @@ async def start_markup_check(_, CallbackQuery):
             "volume": volume,
         }
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -383,7 +383,7 @@ async def start_markup_check(_, CallbackQuery):
             "volume": volume,
         }
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -405,7 +405,7 @@ async def start_markup_check(_, CallbackQuery):
             "volume": volume,
         }
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -427,7 +427,7 @@ async def start_markup_check(_, CallbackQuery):
             "volume": volume,
         }
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
@@ -449,7 +449,7 @@ async def start_markup_check(_, CallbackQuery):
             "volume": volume,
         }
         try:
-            await Music.pytgcalls.change_volume_call(c_id, volume)
+            await pytgcalls.change_volume_call(c_id, volume)
             await CallbackQuery.answer("Setting Audio Changes ...")
         except:
             return await CallbackQuery.answer("No active Group Call...")
