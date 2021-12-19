@@ -17,6 +17,7 @@ from Music.MusicUtilities.database.assistant import (_get_assistant, get_as_name
 from Music.MusicUtilities.database.auth import (_get_authusers, add_nonadmin_chat, delete_authuser,
                    get_authuser, get_authuser_count, get_authuser_names,
                    is_nonadmin_chat, remove_nonadmin_chat, save_authuser)
+from Music.MusicUtilities.helpers.decorators import authorized_users_only
 from Music.MusicUtilities.database.blacklistchat import blacklist_chat, blacklisted_chats, whitelist_chat
 from Music.MusicUtilities.helpers.inline import personal_markup, setting_markup
 from Music.MusicUtilities.helpers.inline import (custommarkup, dashmarkup, setting_markup,
@@ -193,7 +194,7 @@ async def play(_, message: Message):
 
 
 @app.on_message(filters.command("settings") & filters.group)
-@PermissionCheck
+@authorized_users_only
 async def settings(_, message: Message):
     c_id = message.chat.id
     _check = await get_assistant(c_id, "assistant")
