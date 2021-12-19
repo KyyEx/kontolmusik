@@ -12,7 +12,7 @@ from Music import (
 from Music.MusicUtilities.database.chats import is_served_chat
 from Music.MusicUtilities.database.queue import remove_active_chat
 from Music.MusicUtilities.database.sudo import get_sudoers
-from Music.MusicUtilities.helpers.inline import personal_markup
+from Music.MusicUtilities.helpers.inline import personal_markup, setting_markup
 from Music.MusicUtilities.helpers.inline import (custommarkup, dashmarkup, setting_markup,
                           start_pannel, usermarkup, volmarkup)
 from Music.MusicUtilities.helpers.thumbnails import down_thumb
@@ -186,16 +186,23 @@ async def play(_, message: Message):
                 await message.reply_text(text)
 
 
-@app.on_message(filters.command(["setting"]) & filters.group)
+@app.on_message(filters.command("settings") & filters.group)
 @PermissionCheck
-async def useradd(_, message: Message):
-    out = start_pannel()
+async def settings(_, message: Message):
+    c_id = message.chat.id
+    _check = await get_assistant(c_id, "assistant")
+    if not _check:
+        assis = {
+            "volume": 100,
+        }
+        await save_assistant(c_id, "assistant", assis)
+        volume = 100
+    else:
+        volume = _check["volume"]
+    text, buttons = setting_markup2()
     await asyncio.gather(
         message.delete(),
-        message.reply_text(
-            f"Thanks for having me in {message.chat.title}.\n{MUSIC_BOT_NAME} is alive.\n\nFor any assistance or help, checkout our support group and channel.",
-            reply_markup=InlineKeyboardMarkup(out[1]),
-        ),
+        message.reply_text(f"{text}\n\n**Group:** {message.chat.title}\n**Group ID:** {message.chat.id}\n**Volume Level:** {volume}%", reply_markup=InlineKeyboardMarkup(buttons)),
     )
 
 
