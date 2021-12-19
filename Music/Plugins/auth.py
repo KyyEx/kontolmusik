@@ -2,10 +2,10 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from Music import SUDOERS, app
-from Music.MusicUtilities.database import (_get_authusers, delete_authuser, get_authuser,
+from Music.MusicUtilities.database.auth import (_get_authusers, delete_authuser, get_authuser,
                             get_authuser_count, get_authuser_names,
                             save_authuser)
-from Music.MusicUtilities.admins import AdminActual
+from Music.MusicUtilities.helpers.admins import AdminActual
 from Music.MusicUtilities.database.changers import (alpha_to_int, int_to_alpha,
                                       time_to_seconds)
 
