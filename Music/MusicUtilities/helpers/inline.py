@@ -246,7 +246,7 @@ def start_pannel():
                 )
             ],
         ]
-        return f"🎛  **This is {MUSIC_BOT_NAME}**", buttons
+        return f"🎛  **This is {BOT_NAME}**", buttons
     if not CHANNEL and GROUP:
         buttons = [
             [
