@@ -243,6 +243,41 @@ async def settingm(_, CallbackQuery):
         reply_markup=InlineKeyboardMarkup(buttons),
     )
 
+@app.on_callback_query(filters.regex("EVE"))
+async def EVE(_, CallbackQuery):
+    checking = CallbackQuery.from_user.username
+    text, buttons = usermarkup()
+    chat_id = CallbackQuery.message.chat.id
+    is_non_admin = await is_nonadmin_chat(chat_id)
+    if not is_non_admin:
+        await CallbackQuery.answer("Changes Saved")
+        await add_nonadmin_chat(chat_id)
+        await CallbackQuery.edit_message_text(
+            text=f"{text}\n\nAdmins Commands Mode to **Everyone**\n\nNow anyone present in this group can skip, pause, resume, stop music.\n\nChanges Done By @{checking}",
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
+    else:
+        await CallbackQuery.answer(
+            "Commands Mode is Already Set To EVERYONE", show_alert=True
+        )
+
+@app.on_callback_query(filters.regex("AMS"))
+async def AMS(_, CallbackQuery):
+    checking = CallbackQuery.from_user.username
+    text, buttons = usermarkup()
+    chat_id = CallbackQuery.message.chat.id
+    is_non_admin = await is_nonadmin_chat(chat_id)
+    if not is_non_admin:
+        await CallbackQuery.answer(
+            "Commands Mode is Already Set To ADMINS ONLY", show_alert=True
+        )
+    else:
+        await CallbackQuery.answer("Changes Saved")
+        await remove_nonadmin_chat(chat_id)
+        await CallbackQuery.edit_message_text(
+            text=f"{text}\n\nSet Commands Mode to **Admins**\n\nNow only Admins present in this group can skip, pause, resume, stop musics.\n\nChanges Done By @{checking}",
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
 
 
 @app.on_callback_query(
