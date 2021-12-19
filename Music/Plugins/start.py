@@ -213,6 +213,37 @@ async def settings(_, message: Message):
         message.reply_text(f"{text}\n\n**Group:** {message.chat.title}\n**Group ID:** {message.chat.id}\n**Volume Level:** {volume}%", reply_markup=InlineKeyboardMarkup(buttons)),
     )
 
+@app.on_callback_query(filters.regex("okaybhai"))
+async def okaybhai(_, CallbackQuery):
+    await CallbackQuery.answer("Going Back ...")
+    out = start_pannel()
+    await CallbackQuery.edit_message_text(
+        text=f"Terimakasih telah menambahkan saya di {CallbackQuery.message.chat.title}.\n{BOT_NAME} Telah online.\n\nJika butuh bantuan atau terjadi masalah dengan Bot silahkan bergabung di group atau channel kami.",
+        reply_markup=InlineKeyboardMarkup(out[1]),
+    )
+
+@app.on_callback_query(filters.regex("settingm"))
+async def settingm(_, CallbackQuery):
+    await CallbackQuery.answer("Bot Settings ...")
+    text, buttons = setting_markup()
+    c_title = CallbackQuery.message.chat.title
+    c_id = CallbackQuery.message.chat.id
+    chat_id = CallbackQuery.message.chat.id
+    _check = await get_assistant(c_id, "assistant")
+    if not _check:
+        assis = {
+            "volume": 100,
+        }
+        await save_assistant(c_id, "assistant", assis)
+        volume = 100
+    else:
+        volume = _check["volume"]
+    await CallbackQuery.edit_message_text(
+        text=f"{text}\n\n**Group:** {c_title}\n**Group ID:** {c_id}\n**Volume Level:** {volume}%",
+        reply_markup=InlineKeyboardMarkup(buttons),
+    )
+
+
 
 @app.on_callback_query(
     filters.regex(
