@@ -1,7 +1,7 @@
 from typing import Dict, List, Union
 
 from Music import SUDOERS, app
-from Music.MusicUtilities.database import (_get_authusers, add_nonadmin_chat,
+from Music.MusicUtilities.database.auth import (_get_authusers, add_nonadmin_chat,
                             delete_authuser, get_authuser, get_authuser_count,
                             get_authuser_names, is_nonadmin_chat,
                             remove_nonadmin_chat, save_authuser)
