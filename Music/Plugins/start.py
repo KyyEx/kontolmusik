@@ -205,7 +205,7 @@ async def settings(_, message: Message):
         volume = 100
     else:
         volume = _check["volume"]
-    text, buttons = setting_markup2()
+    text, buttons = setting_markup()
     await asyncio.gather(
         message.delete(),
         message.reply_text(f"{text}\n\n**Group:** {message.chat.title}\n**Group ID:** {message.chat.id}\n**Volume Level:** {volume}%", reply_markup=InlineKeyboardMarkup(buttons)),
