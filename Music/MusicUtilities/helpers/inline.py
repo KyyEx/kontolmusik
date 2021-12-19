@@ -399,7 +399,7 @@ def volmarkup():
         ],
         [InlineKeyboardButton(text="🔙 ʙᴀᴄᴋ", callback_data="settingm")],
     ]
-    return f"🔧  **{MUSIC_BOT_NAME} Settings**", buttons
+    return f"🔧  **{BOT_NAME} Settings**", buttons
 
 
 def custommarkup():
