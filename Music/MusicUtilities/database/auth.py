@@ -1,6 +1,6 @@
 from typing import Dict, List, Union
 
-from Kyy import db
+from Music import db
 
 authdb = db.adminauth
 
