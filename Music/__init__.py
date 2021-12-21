@@ -9,6 +9,7 @@ from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
 from pyrogram import Client as Bot
 
+from Music.converter.cli import app, userbot
 from Music import config
 from Music.config import (
     API_HASH,
