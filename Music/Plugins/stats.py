@@ -14,6 +14,7 @@ from pyrogram import Client
 from pyrogram import __version__ as pyrover
 from pyrogram import filters
 from pyrogram.types import Message
+from pytgcalls import __version__ as pytover
 
 from Music import (BOT_ID, BOT_NAME, SUDOERS, app, boottime, pymongodb)
 from Music import client as userbot
@@ -85,6 +86,7 @@ async def stats_markup(_, CallbackQuery):
 **Platform:** {sc}
 **Architecture:** {arch}
 **Ram:** {ram}
+**PyTgCalls Version:** {pytover.__version__}
 **Python Ver:** {pyver.split()[0]}
 **Pyrogram Ver:** {pyrover}"""
         await CallbackQuery.edit_message_text(smex, reply_markup=stats2)
@@ -114,7 +116,7 @@ async def stats_markup(_, CallbackQuery):
             served_chats.append(int(chat["chat_id"]))
         blocked = await get_gbans_count()
         sudoers = await get_sudoers()
-        modules_loaded = len(ALL_MODULES)
+        modules_loaded = "17"
         j = 0
         for count, user_id in enumerate(sudoers, 0):
             try:
