@@ -21,8 +21,8 @@ from Music import client as userbot
 from Music.MusicUtilities.database.gbanned import get_gbans_count
 from Music.MusicUtilities.database.chats import get_served_chats
 from Music.MusicUtilities.database.sudo import get_sudoers
-from Music.MusicUtilities.helpers.inline import (stats1, stats2, stats3, stats4, stats6,
-                          stats7)
+from Music.MusicUtilities.helpers.inline import (stats1, stats2, stats3, stats4, stats5,
+                          stats6)
 
 from Music.MusicUtilities.database.ping import get_readable_time
 
@@ -137,7 +137,7 @@ async def stats_markup(_, CallbackQuery):
             "Getting Assistant Stats...", show_alert=True
         )
         await CallbackQuery.edit_message_text(
-            "Getting Assistant Stats.. Please Wait...", reply_markup=stats7
+            "Getting Assistant Stats.. Please Wait...", reply_markup=stats6
         )
         groups_ub = channels_ub = bots_ub = privates_ub = total_ub = 0
         async for i in userbot.iter_dialogs():
@@ -160,7 +160,7 @@ async def stats_markup(_, CallbackQuery):
 **Channels:** {channels_ub} 
 **Bots:** {bots_ub}
 **Users:** {privates_ub}"""
-        await CallbackQuery.edit_message_text(smex, reply_markup=stats6)
+        await CallbackQuery.edit_message_text(smex, reply_markup=stats5)
     if command == "gen_stats":
         start = datetime.now()
         uptime = await bot_sys_stats()
