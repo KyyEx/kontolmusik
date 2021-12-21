@@ -116,7 +116,7 @@ async def stats_markup(_, CallbackQuery):
             served_chats.append(int(chat["chat_id"]))
         blocked = await get_gbans_count()
         sudoers = await get_sudoers()
-        modules_loaded = "17"
+        modules_loaded = "20"
         j = 0
         for count, user_id in enumerate(sudoers, 0):
             try:
