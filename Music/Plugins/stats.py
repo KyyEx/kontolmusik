@@ -136,7 +136,7 @@ async def stats_markup(_, CallbackQuery):
         await CallbackQuery.answer(
             "Getting MongoDB Stats...", show_alert=True
         )
-        db = pymongodb
+        db = pymongodb.Music
         call = db.command("dbstats")
         database = call["db"]
         datasize = call["dataSize"] / 1024
