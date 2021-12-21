@@ -7,7 +7,7 @@ import uvloop
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from motor.motor_asyncio import AsyncIOMotorClient as Bot
-from config import MONGO_DB_URI as mango
+from Music.config import MONGO_DB_URI as mango
 from pyrogram import Client
 from pyrogram import Client as Bot
 
