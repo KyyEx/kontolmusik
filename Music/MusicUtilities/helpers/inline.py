@@ -536,7 +536,7 @@ stats4 = InlineKeyboardMarkup(
 )
 
 
-stats6 = InlineKeyboardMarkup(
+stats5 = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
@@ -558,7 +558,7 @@ stats6 = InlineKeyboardMarkup(
 )
 
 
-stats7 = InlineKeyboardMarkup(
+stats6 = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
