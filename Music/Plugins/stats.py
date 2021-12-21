@@ -16,12 +16,12 @@ from pyrogram import filters
 from pyrogram.types import Message
 from pytgcalls import __version__ as pytover
 
-from Music import (BOT_ID, BOT_NAME, SUDOERS, app, boottime, pymongodb)
+from Music import (BOT_ID, BOT_NAME, SUDOERS, app, boottime)
 from Music import client as userbot
 from Music.MusicUtilities.database.gbanned import get_gbans_count
 from Music.MusicUtilities.database.chats import get_served_chats
 from Music.MusicUtilities.database.sudo import get_sudoers
-from Music.MusicUtilities.helpers.inline import (stats1, stats2, stats3, stats4, stats5, stats6,
+from Music.MusicUtilities.helpers.inline import (stats1, stats2, stats3, stats4, stats6,
                           stats7)
 
 from Music.MusicUtilities.database.ping import get_readable_time
@@ -132,37 +132,6 @@ async def stats_markup(_, CallbackQuery):
 **Sudo Users:** {j}
 **Served Chats:** {len(served_chats)}"""
         await CallbackQuery.edit_message_text(smex, reply_markup=stats4)
-    if command == "mongo_stats":
-        await CallbackQuery.answer(
-            "Getting MongoDB Stats...", show_alert=True
-        )
-        db = pymongodb.Music
-        call = db.command("dbstats")
-        database = call["db"]
-        datasize = call["dataSize"] / 1024
-        datasize = str(datasize)
-        storage = call["storageSize"] / 1024
-        objects = call["objects"]
-        collections = call["collections"]
-        status = db.command("serverStatus")
-        query = status["opcounters"]["query"]
-        mver = status["version"]
-        mongouptime = status["uptime"] / 86400
-        mongouptime = str(mongouptime)
-        provider = status["repl"]["tags"]["provider"]
-        smex = f"""
-[•]<u>**MongoDB Stats**</u>
-
-**Mongo Uptime:** {mongouptime[:4]} Days
-**Version:** {mver}
-**Database:** {database}
-**Provider:** {provider}
-**DB Size:** {datasize[:6]} Mb
-**Storage:** {storage} Mb
-**Collections:** {collections}
-**Keys:** {objects}
-**Total Queries:** `{query}`"""
-        await CallbackQuery.edit_message_text(smex, reply_markup=stats5)
     if command == "assis_stats":
         await CallbackQuery.answer(
             "Getting Assistant Stats...", show_alert=True
