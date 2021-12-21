@@ -29,7 +29,6 @@ def initialize():
 boottime = time.time()
 
 ### Clients
-app = app
 userbot = userbot
 
 
