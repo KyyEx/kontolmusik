@@ -26,6 +26,11 @@ def initialize():
     global dbb
     dbb = {}
 
+### Mongo DB
+MONGODB_CLI = Bot(mango)
+db = MONGODB_CLI.Music
+pymongodb = ""
+
 ### Boot Time
 boottime = time.time()
 
