@@ -18,7 +18,7 @@ from pyrogram.types import Message
 from Music import (BOT_ID, BOT_NAME, SUDOERS, app, boottime, pymongodb)
 from Music import client as userbot
 from Music.MusicUtilities.database.gbanned import get_gbans_count
-from Music.MusicUtilities.database.chat import get_served_chats
+from Music.MusicUtilities.database.chats import get_served_chats
 from Music.MusicUtilities.database.sudo import get_sudoers
 from Music.MusicUtilities.helpers.inline import (stats1, stats2, stats3, stats4, stats5, stats6,
                           stats7)
