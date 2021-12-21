@@ -8,4 +8,4 @@ app = Client(
     bot_token=BOT_TOKEN,
 )
 
-userbot = Client(STRING, API_ID, API_HASH)
+userbot = Client(SESSION_NAME, API_ID, API_HASH)
