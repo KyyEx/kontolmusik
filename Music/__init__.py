@@ -25,6 +25,13 @@ def initialize():
     global dbb
     dbb = {}
 
+### Boot Time
+boottime = time.time()
+
+### Clients
+app = app
+userbot = userbot
+
 
 initialize()
 
