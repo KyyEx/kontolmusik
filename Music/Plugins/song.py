@@ -286,23 +286,18 @@ async def chonga(_, CallbackQuery):
 
 ⁶ <b>{title6[:20]}</b>
 ├ 💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{ID6})
-└ ⚡ **Didukung:** [{BOT_NAME}](t.me/{BOT_USERNAME})
 
 ⁷ <b>{title7[:20]}</b>
 ├ 💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{ID7})
-└ ⚡ **Didukung:** [{BOT_NAME}](t.me/{BOT_USERNAME})
 
 ⁸ <b>{title8[:20]}</b>
-├ 💡 [Get Additional Information](https://t.me/{BOT_USERNAME}?start=info_{ID8})
-└ ⚡ **Didukung:** [{BOT_NAME}](t.me/{BOT_USERNAME})
+├ 💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{ID8})
 
 ⁹ <b>{title9[:20]}</b>
 ├ 💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{ID9})
-└ ⚡ **Didukung:** [{BOT_NAME}](t.me/{BOT_USERNAME})
 
 ¹⁰ <b>{title10[:20]}</b>
 ├ 💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{ID10})
-└ ⚡ **Didukung:** [{BOT_NAME}](t.me/{BOT_USERNAME})
 """,
             reply_markup=InlineKeyboardMarkup(buttons),
         )
