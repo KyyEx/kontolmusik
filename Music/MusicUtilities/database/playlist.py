@@ -17,16 +17,6 @@ async def get_playlist_count() -> dict:
     return {"chats_count": chats_count, "notes_count": notes_count}
 
 
-async def get_playlist(
-    chat_id: int, name: str, type: str
-) -> Union[bool, dict]:
-    name = name
-    _notes = await _get_playlists(chat_id, type)
-    if name in _notes:
-        return _notes[name]
-    else:
-        return False
-    
 async def _get_playlists(chat_id: int) -> Dict[str, int]:
     _notes = await playlistdb.find_one({"chat_id": chat_id})
     if not _notes:
@@ -41,11 +31,13 @@ async def get_note_names(chat_id: int) -> List[str]:
     return _notes
 
 
-async def get_playlist_names(chat_id: int, type: str) -> List[str]:
-    _notes = []
-    for note in await _get_playlists(chat_id, type):
-        _notes.append(note)
-    return _notes
+async def get_playlist(chat_id: int, name: str) -> Union[bool, dict]:
+    name = name
+    _notes = await _get_playlists(chat_id)
+    if name in _notes:
+        return _notes[name]
+    else:
+        return False
 
 
 async def save_playlist(chat_id: int, name: str, note: dict):
