@@ -112,6 +112,13 @@ def all_info(app, client):
     ASSUSERNAME = getme1.username
     ASSMENTION = getme1.mention
 
+def init_db():
+    global db_mem
+    db_mem = {}
+
+
+init_db
+
 
 print("[INFO]: STARTING BOT CLIENT")
 app.start()
