@@ -77,7 +77,7 @@ async def activevc(_, message: Message):
         else:
             await mystic.edit(msg)
     else:
-        await message.reply_text(f"Nothing in Queue")
+        await message.reply_text(f"Tidak ada dalam Antrian")
 
 
 @app.on_message(filters.command("activevc") & filters.user(SUDOERS))
@@ -105,7 +105,7 @@ async def activevc(_, message: Message):
             text += f"<b>{j + 1}. {title}</b> [`{x}`]\n"
         j += 1
     if not text:
-        await message.reply_text("No Active Voice Chats")
+        await message.reply_text("Tidak Ada Obrolan Suara Aktif")
     else:
         await message.reply_text(
             f"**Active Voice Chats:-**\n\n{text}",
@@ -117,46 +117,46 @@ async def activevc(_, message: Message):
 async def basffy(_, message):
     if len(message.command) != 2:
         await message.reply_text(
-            "**Usage:**\n/joinassistant [Chat Username or Chat ID]"
+            "**Penggunaan:**\n/joinassistant [Nama Pengguna Obrolan atau ID Obrolan]"
         )
         return
     chat = message.text.split(None, 2)[1]
     try:
         await userbot.join_chat(chat)
     except Exception as e:
-        await message.reply_text(f"Failed\n**Possible reason could be**:{e}")
+        await message.reply_text(f"Gagal\n**Kemungkinan alasannya bisa**:{e}")
         return
-    await message.reply_text("Joined.")
+    await message.reply_text("Bergabung.")
 
 
 @app.on_message(filters.command("leavebot") & filters.user(SUDOERS))
 async def baaaf(_, message):
     if len(message.command) != 2:
         await message.reply_text(
-            "**Usage:**\n/leavebot [Chat Username or Chat ID]"
+            "**Penggunaan:**\n/leavebot [Nama Pengguna Obrolan atau ID Obrolan]"
         )
         return
     chat = message.text.split(None, 2)[1]
     try:
         await app.leave_chat(chat)
     except Exception as e:
-        await message.reply_text(f"Failed\n**Possible reason could be**:{e}")
+        await message.reply_text(f"Gagal\n**Kemungkinan alasannya bisa**:{e}")
         print(e)
         return
-    await message.reply_text("Bot has left the chat successfully")
+    await message.reply_text("Bot telah berhasil meninggalkan obrolan")
 
 
 @app.on_message(filters.command("leaveassistant") & filters.user(SUDOERS))
 async def baujaf(_, message):
     if len(message.command) != 2:
         await message.reply_text(
-            "**Usage:**\n/leave [Chat Username or Chat ID]"
+            "**Penggunaan:**\n/leave [Nama Pengguna Obrolan atau ID Obrolan]"
         )
         return
     chat = message.text.split(None, 2)[1]
     try:
         await userbot.leave_chat(chat)
     except Exception as e:
-        await message.reply_text(f"Failed\n**Possible reason could be**:{e}")
+        await message.reply_text(f"Gagal\n**Kemungkinan alasannya bisa**:{e}")
         return
-    await message.reply_text("Left.")
+    await message.reply_text("Keluar.")
