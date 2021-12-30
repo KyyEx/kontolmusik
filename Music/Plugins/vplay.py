@@ -209,6 +209,7 @@ async def vplay(c: Client, message: Message):
                     disable_web_page_preview=True,
                     reply_markup=keyboard,
                 )
+               
             else:
                 if Q == 720:
                     amaze = HighQualityVideo()
@@ -288,6 +289,7 @@ async def vplay(c: Client, message: Message):
                             disable_web_page_preview=True,
                             reply_markup=keyboard,
                         )
+                    
                     else:
                         try:
                             await call_py.join_group_call(
