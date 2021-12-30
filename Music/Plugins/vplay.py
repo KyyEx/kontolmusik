@@ -195,7 +195,7 @@ async def vplay(c: Client, message: Message):
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                 thumb ="cache/IMG_20211230_165039_159.jpg"
-                await app.reply_photo(
+                await message.reply_photo(
                     photo=thumb,
                     chat_id,
                     caption=f"""
@@ -229,7 +229,7 @@ async def vplay(c: Client, message: Message):
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                 thumb ="cache/IMG_20211230_165039_159.jpg"
-                await app.reply_photo(
+                await message.reply_photo(
                     photo=thumb,
                     chat_id,
                     caption=f"""
@@ -273,7 +273,7 @@ async def vplay(c: Client, message: Message):
                         await loser.delete()
                         requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                         thumb ="cache/IMG_20211230_165039_159.jpg"
-                        await app.reply_photo(
+                        await message.reply_photo(
                             photo=thumb,
                             chat_id,
                             caption=f"""
@@ -303,7 +303,7 @@ async def vplay(c: Client, message: Message):
                             await loser.delete()
                             requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                             thumb ="cache/IMG_20211230_165039_159.jpg"
-                            await app.reply_photo(
+                            await message.reply_photo(
                                 photo=thumb,
                                 chat_id,
                                 caption=f"""
