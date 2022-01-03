@@ -5,6 +5,10 @@
     "repository": "https://github.com/muhamadrizky16/KyyMusic",
     "stack": "container",
     "env": {
+        "AUTO_LEAVE": {
+            "description": "Fill with seconds (for autoleave assistant. if no need, fill with (0)",
+            "required": true
+        },
         "SESSION_NAME": {
             "description": "fill with the pyrogram session string from account",
             "required": true
