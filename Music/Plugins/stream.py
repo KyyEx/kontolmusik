@@ -19,14 +19,6 @@ from Music import BOT_NAME, BOT_USERNAME, app
 from Music.MusicUtilities.tgcallsrun.music import pytgcalls as call_py
 from Music.MusicUtilities.helpers.filters import command
 from Music.MusicUtilities.helpers.logger import LOG_CHAT
-from Music.MusicUtilities.helpers.inline import (
-    play_keyboard,
-    search_markup,
-    play_markup,
-    playlist_markup,
-    audio_markup,
-    play_list_keyboard,
-)
 from Music.MusicUtilities.tgcallsrun.queues import (
     QUEUE,
     add_to_queue,
@@ -259,62 +251,8 @@ async def vplay(c: Client, message: Message):
             search = ytsearch(query)
             Q = 480
             amaze = HighQualityVideo()
-        try:
-            a = VideosSearch(query, limit=5)
-            result = (a.result()).get("result")
-            title1 = result[0]["title"]
-            duration1 = result[0]["duration"]
-            title2 = result[1]["title"]
-            duration2 = result[1]["duration"]
-            title3 = result[2]["title"]
-            duration3 = result[2]["duration"]
-            title4 = result[3]["title"]
-            duration4 = result[3]["duration"]
-            title5 = result[4]["title"]
-            duration5 = result[4]["duration"]
-            ID1 = result[0]["id"]
-            ID2 = result[1]["id"]
-            ID3 = result[2]["id"]
-            ID4 = result[3]["id"]
-            ID5 = result[4]["id"]
-        except Exception as e:
             if search == 0:
                 await loser.edit("❌ **Tidak ada hasil yang ditemukan.**")
-        thumb ="cache/IMG_20211105_143948_192.jpg"
-        buttons = search_markup(ID1, ID2, ID3, ID4, ID5, duration1, duration2, duration3, duration4, duration5, user_id, query)
-        await mystic.edit( 
-            f"**✨ Silahkan pilih lagu yang ingin anda putar**\n\n¹ <b>{title1[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID1})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n² <b>{title2[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID2})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n³ <b>{title3[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID3})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁴ <b>{title4[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID4})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁵ <b>{title5[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID5})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__",    
-            reply_markup=InlineKeyboardMarkup(buttons),
-            disable_web_page_preview=True
-        )  
-        return
-    if await is_active_chat(chat_id):
-        position = await put(chat_id, file=file)
-        _chat_ = (str(file)).replace("_", "", 1).replace("/", "", 1).replace(".", "", 1)
-        cpl = f"downloads/{_chat_}final.png"
-        shutil.copyfile(thumb, cpl)
-        f20 = open(f"search/{_chat_}title.txt", "w")
-        f20.write(f"{title}")
-        f20.close()
-        f111 = open(f"search/{_chat_}duration.txt", "w")
-        f111.write(f"{duration}")
-        f111.close()
-        f27 = open(f"search/{_chat_}username.txt", "w")
-        f27.write(f"{checking}")
-        f27.close()
-        if fucksemx != 1:
-            f28 = open(f"search/{_chat_}videoid.txt", "w")
-            f28.write(f"{videoid}")
-            f28.close()
-            buttons = play_markup(videoid, user_id)
-        else:
-            f28 = open(f"search/{_chat_}videoid.txt", "w")
-            f28.write(f"{videoid}")
-            f28.close()
-            buttons = audio_markup(videoid, user_id)
-        checking = (
-            f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-        )
             else:
                 songname = search[0]
                 url = search[1]
@@ -373,73 +311,6 @@ async def vplay(c: Client, message: Message):
                         except Exception as ep:
                             await loser.delete()
                             await message.reply_text(f"Error: `{ep}`")
-
-
-@Client.on_callback_query(filters.regex(pattern=r"popat"))
-async def popat(_,CallbackQuery): 
-    callback_data = CallbackQuery.data.strip()
-    callback_request = callback_data.split(None, 1)[1]
-    print(callback_request)
-    userid = CallbackQuery.from_user.id 
-    try:
-        id , query, user_id = callback_request.split("|") 
-    except Exception as e:
-        return await CallbackQuery.message.edit(f"Terjadi Kesalahan\n**Kemungkinan alasannya adalah**:{e}")       
-    if CallbackQuery.from_user.id != int(user_id):
-        return await CallbackQuery.answer("This is not for you! Search You Own Song", show_alert=True)
-    i=int(id)
-    query = str(query)
-    try:
-        a = VideosSearch(query, limit=10)
-        result = (a.result()).get("result")
-        title1 = (result[0]["title"])
-        duration1 = (result[0]["duration"])
-        title2 = (result[1]["title"])
-        duration2 = (result[1]["duration"])      
-        title3 = (result[2]["title"])
-        duration3 = (result[2]["duration"])
-        title4 = (result[3]["title"])
-        duration4 = (result[3]["duration"])
-        title5 = (result[4]["title"])
-        duration5 = (result[4]["duration"])
-        title6 = (result[5]["title"])
-        duration6 = (result[5]["duration"])
-        title7= (result[6]["title"])
-        duration7 = (result[6]["duration"])      
-        title8 = (result[7]["title"])
-        duration8 = (result[7]["duration"])
-        title9 = (result[8]["title"])
-        duration9 = (result[8]["duration"])
-        title10 = (result[9]["title"])
-        duration10 = (result[9]["duration"])
-        ID1 = (result[0]["id"])
-        ID2 = (result[1]["id"])
-        ID3 = (result[2]["id"])
-        ID4 = (result[3]["id"])
-        ID5 = (result[4]["id"])
-        ID6 = (result[5]["id"])
-        ID7 = (result[6]["id"])
-        ID8 = (result[7]["id"])
-        ID9 = (result[8]["id"])
-        ID10 = (result[9]["id"])                    
-    except Exception as e:
-        return await mystic.edit_text(f"Lagu Tidak Ditemukan.\n**Kemungkinan Alasan:**{e}")
-    if i == 1:
-        buttons = search_markup2(ID6, ID7, ID8, ID9, ID10, duration6, duration7, duration8, duration9, duration10 ,user_id, query)
-        await CallbackQuery.edit_message_text(
-            f"**✨ Silahkan pilih lagu yang ingin anda putar**\n\n⁶ <b>{title6[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID6})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁷ <b>{title7[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID7})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁸ <b>{title8[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID8})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁹ <b>{title9[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID9})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n¹⁰ <b>{title10[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID10})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__",    
-            reply_markup=InlineKeyboardMarkup(buttons),
-            disable_web_page_preview=True
-        )  
-        return    
-    if i == 2:
-        buttons = search_markup(ID1, ID2, ID3, ID4, ID5, duration1, duration2, duration3, duration4, duration5, user_id, query)
-        await CallbackQuery.edit_message_text(
-            f"**✨ Silahkan pilih lagu yang ingin anda putar**\n\n¹ <b>{title1[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID1})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n² <b>{title2[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID2})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n³ <b>{title3[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID3})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁴ <b>{title4[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID4})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__\n\n⁵ <b>{title5[:27]}</b>\n  ┗ 💡 <u>__[More Information](https://t.me/{BOT_USERNAME}?start=info_{ID5})__</u>\n  ┗ ⚡ __Powered by {BOT_NAME}__",    
-            reply_markup=InlineKeyboardMarkup(buttons),
-            disable_web_page_preview=True 
-        )  
-        return
 
 
 @app.on_message(command("vplaylist") & filters.group)
