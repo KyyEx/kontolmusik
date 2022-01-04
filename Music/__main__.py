@@ -53,11 +53,14 @@ async def load_start():
     await app.send_message(LOG_GROUP_ID, "Bot Started")
     await client.send_message(LOG_GROUP_ID, "Assistant Started")
     print("[INFO]: STARTED")
+
+"""
     if AUTO_LEAVE:
         print("[ INFO ] STARTING SCHEDULER")
         scheduler.configure(timezone=pytz.utc)
-        scheduler.add_job(leave_from_inactive_call, "interval", seconds=AUTO_LEAVE)
+        scheduler.add_job(self.leave_from_inactive_call, "interval", seconds=AUTO_LEAVE)
         scheduler.start()
+"""
 
 
 loop = asyncio.get_event_loop()
