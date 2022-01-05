@@ -2,7 +2,7 @@ import asyncio
 import os
 import random
 from asyncio import QueueEmpty
-from Music.config GROUP, CHANNEL
+from Music.config import GROUP, CHANNEL
 from Music import BOT_NAME, BOT_USERNAME, app
 from Music.MusicUtilities.database.queue import is_active_chat, remove_active_chat
 from Music.MusicUtilities.helpers.chattitle import CHAT_TITLE
