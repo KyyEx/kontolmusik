@@ -11,7 +11,7 @@ from Music.MusicUtilities.tgcallsrun import run
 from pyrogram import Client
 from pytgcalls import idle
 
-scheduler = AsyncIOScheduler
+scheduler = AsyncIOScheduler()
 
 Client(
     ":Music:",
@@ -51,7 +51,6 @@ async def load_start():
         except Exception:
             print("Error came while clearing db")
     await app.send_message(LOG_GROUP_ID, "Bot Started")
-    await client.send_message(LOG_GROUP_ID, "Assistant Started")
     print("[INFO]: STARTED")
 
 """
