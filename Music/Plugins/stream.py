@@ -1,7 +1,19 @@
+# Mod of @Tomi_sn On Telegram
+
 import asyncio
 import os
-from Music.MusicUtilities.tgcallsrun import ASS_ACC
+import random
+from asyncio import QueueEmpty
 
+from Music import BOT_NAME, BOT_USERNAME, GROUP, CHANNEL, app
+from Music.MusicUtilities.database.queue import is_active_chat, remove_active_chat
+from Music.MusicUtilities.helpers.chattitle import CHAT_TITLE
+from Music.MusicUtilities.helpers.filters import command
+from Music.MusicUtilities.helpers.gets import get_url, themes
+from Music.MusicUtilities.helpers.logger import LOG_CHAT
+from Music.MusicUtilities.helpers.thumbnails import gen_thumb
+from Music.MusicUtilities.tgcallsrun import ASS_ACC, clear, music
+from Music.MusicUtilities.tgcallsrun.queues import QUEUE, add_to_queue, clear_queue
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant, UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -14,28 +26,29 @@ from pytgcalls.types.input_stream.quality import (
     MediumQualityVideo,
 )
 from youtubesearchpython import VideosSearch
-from Music.config import GROUP, CHANNEL
-from Music import BOT_NAME, BOT_USERNAME, app
-from Music.MusicUtilities.tgcallsrun.music import pytgcalls as call_py
-from Music.MusicUtilities.helpers.filters import command
-from Music.MusicUtilities.helpers.logger import LOG_CHAT
-from Music.MusicUtilities.tgcallsrun.queues import (
-    QUEUE,
-    add_to_queue,
-    clear_queue,
-    get_queue,
-)
+
+
+def clear_queue(chat_id):
+    if chat_id in QUEUE:
+        QUEUE.pop(chat_id)
+        return 1
+    else:
+        return 0
 
 
 def ytsearch(query):
     try:
-        search = VideosSearch(query, limit=1).result()
-        data = search["result"][0]
-        songname = data["title"]
-        url = data["link"]
-        duration = data["duration"]
-        thumbnail = f"https://i.ytimg.com/vi/{data['id']}/hqdefault.jpg"
-        return [songname, url, duration, thumbnail]
+        search = VideosSearch(query, limit=1)
+        for r in search.result()["result"]:
+            ytid = r["id"]
+            if len(r["title"]) > 34:
+                title = r["title"][:70]
+            else:
+                title = r["title"]
+            url = f"https://www.youtube.com/watch?v={ytid}"
+            duration = r["duration"]
+            videoid = r["id"]
+        return [title, url, duration, videoid]
     except Exception as e:
         print(e)
         return 0
@@ -56,10 +69,9 @@ async def ytdl(link):
         return 1, stdout.decode().split("\n")[0]
     else:
         return 0, stderr.decode()
+    
 
-
-
-@app.on_message(command("vplay") & filters.group)
+@Client.on_message(command(["vplay", f"vplay@{BOT_USERNAME}"]) & filters.group)
 async def vplay(c: Client, message: Message):
     replied = message.reply_to_message
     chat_id = message.chat.id
@@ -70,7 +82,7 @@ async def vplay(c: Client, message: Message):
         [
             [
                 InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{GROUP}"),
-                InlineKeyboardButton("ᴄʜᴀɴɴᴇʟ", url=f"https://t.me/{CHANNEL}"),
+                InlineKeyboardButton("ᴜᴘᴅᴀᴛᴇs", url=f"https://t.me/{CHANNEL}"),
             ]
         ]
     )
@@ -136,37 +148,41 @@ async def vplay(c: Client, message: Message):
         return
     try:
         ubot = await ASS_ACC.get_me()
-        b = await c.get_chat_member(chat_id, ubot.id)
+        b = await app.get_chat_member(message.chat.id, ubot.id)
         if b.status == "kicked":
-            await message.reply_text(
-                f"@{ubot.username} **Terkena ban di grup** {message.chat.title}\n\n» **unban Assistant terlebih dahulu jika ingin menggunakan bot ini.**"
+            await app.unban_chat_member(message.chat.id, ubot.id)
+            invite_link = await app.export_chat_invite_link(message.chat.id)
+            if "+" in invite_link:
+                invite = (invite_link.replace("+", "")).split("t.me/")[1]
+                link_invite = f"https://t.me/joinchat/{invite}"
+            await ASS_ACC.join_chat(link_invite)
+            await app.send_message(
+                message.chat.id,
+                f"{ubot.first_name} Berhasil Bergabung",
             )
-            return
     except UserNotParticipant:
-        if message.chat.username:
-            try:
-                await ASS_ACC.join_chat(message.chat.username)
-            except Exception as e:
-                await message.reply_text(
-                    f"❌ **@{ubot.username} Assistant gagal bergabung**\n\n**Alasan**: `{e}`"
-                )
-                return
-        else:
-            try:
-                invite_link = await message.chat.export_invite_link()
-                if "+" in invite_link:
-                    link_hash = (invite_link.replace("+", "")).split("t.me/")[1]
-                await ASS_ACC.join_chat(f"https://t.me/joinchat/{link_hash}")
-            except UserAlreadyParticipant:
-                pass
-            except Exception as e:
-                return await message.reply_text(
-                    f"❌ **@{ubot.username} Assistant gagal bergabung**\n\n**Alasan**: `{e}`"
-                )
+        try:
+            invite_link = await app.export_chat_invite_link(message.chat.id)
+            if "+" in invite_link:
+                invite = (invite_link.replace("+", "")).split("t.me/")[1]
+                link_invite = f"https://t.me/joinchat/{invite}"
+            await ASS_ACC.join_chat(link_invite)
+            await app.send_message(
+                message.chat.id,
+                f"{ubot.first_name} Berhasil Bergabung",
+            )
+        except UserAlreadyParticipant:
+            pass
+        except Exception as e:
+            return await message.reply_text(
+                f"❌ **@{ubot.username} Assistant gagal bergabung**\n\n**Alasan**: `{e}`"
+            )
 
+    replied = message.reply_to_message
+    url = get_url(message)
     if replied:
         if replied.video or replied.document:
-            what = "Audio Searched"
+            what = "Video or Document Format"
             await LOG_CHAT(message, what)
             loser = await replied.reply("📥 **Mengunduh Video...**")
             dl = await replied.download()
@@ -180,18 +196,19 @@ async def vplay(c: Client, message: Message):
                 else:
                     Q = 720
                     await loser.edit(
-                        "» **Hanya 720, 480, 360 yang diizinkan** \n💡 **Sekarang Streaming Video Dalam 720p**"
+                        "» **Hanya 720, 480, 360 Yang Diizinkan** \n💡 **Sekarang Streaming Video Di 720p**"
                     )
             try:
                 if replied.video:
-                    songname = replied.video.file_name[:70]
+                    title = replied.video.file_name[:70]
+                    duration = replied.video.duration
                 elif replied.document:
-                    songname = replied.document.file_name[:70]
+                    title = replied.document.file_name[:70]
+                    duration = replied.document.duration
             except BaseException:
-                songname = "Video"
-
+                pass
             if chat_id in QUEUE:
-                pos = add_to_queue(chat_id, songname, dl, link, "Video", Q)
+                pos = add_to_queue(chat_id, title, dl, link, "Video", Q)
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                 await message.reply_photo(
@@ -199,11 +216,13 @@ async def vplay(c: Client, message: Message):
                     caption=f"""
 💡 **Trek ditambahkan ke antrian**
 
-🏷 **Nama:** [{songname[:999]}]({link})
+🏷 **Judul:** [{title[:999]}]({link})
+⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
 
 #️⃣ **Posisi antrian** {pos}
 """,
+                    disable_web_page_preview=True,
                     reply_markup=keyboard,
                 )
             else:
@@ -213,7 +232,14 @@ async def vplay(c: Client, message: Message):
                     amaze = MediumQualityVideo()
                 elif Q == 360:
                     amaze = LowQualityVideo()
-                await call_py.join_group_call(
+                if await is_active_chat(chat_id):
+                    try:
+                        clear(chat_id)
+                    except QueueEmpty:
+                        pass
+                    await remove_active_chat(chat_id)
+                    await music.pytgcalls.leave_group_call(chat_id)
+                await music.pytgcalls.join_group_call(
                     chat_id,
                     AudioVideoPiped(
                         dl,
@@ -222,95 +248,107 @@ async def vplay(c: Client, message: Message):
                     ),
                     stream_type=StreamType().pulse_stream,
                 )
-                add_to_queue(chat_id, songname, dl, link, "Video", Q)
+                add_to_queue(chat_id, title, dl, link, "Video", Q)
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                 await message.reply_photo(
                     photo="cache/IMG_20211230_211039_090.jpg",
                     caption=f"""
-▷ **Streaming video dimulai**
+▷ **Memutar video dimulai**
 
-🏷 **Nama:** [{songname[:999]}]({link})
+🏷 **Judul:** [{title[:999]}]({link})
+⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
 
 💬 **Diputar di:** {message.chat.title}
 """,
+                    disable_web_page_preview=True,
                     reply_markup=keyboard,
                 )
 
-    else:
-        if len(message.command) < 2:
-            await message.reply(
-                "» Balas ke **file video** atau **berikan sesuatu untuk ditelusuri.**"
+    elif url:
+        what = "URL vplay"
+        await LOG_CHAT(message, what)
+        query = message.text.split(None, 1)[1]
+        kz = await message.reply_text("** Memproses url...**")
+        try:
+            results = VideosSearch(query, limit=1)
+            for result in results.result()["result"]:
+                title = result["title"]
+                duration = result["duration"]
+                thumbnail = f"https://i.ytimg.com/vi/{result['id']}/hqdefault.jpg"
+                url = result["link"]
+                (result["id"])
+                result["id"]
+        except Exception as e:
+            return await kz.edit_text(
+                f"Lagu Tidak Ditemukan.\n**Kemungkinan Alasan:** {e}"
+            )
+        Q = 360
+        amaze = HighQualityVideo()
+        theme = random.choice(themes)
+        srrf = message.chat.title
+        ctitle = await CHAT_TITLE(srrf)
+        userid = message.from_user.id
+        thumb = await gen_thumb(thumbnail, title, userid, theme, ctitle)
+        z, ytlink = await ytdl(url)
+        if z == 0:
+            await CallbackQuery.message.reply_text(
+                f"❌ yt-dl masalah terdeteksi\n\n» `{ytlink}`"
             )
         else:
-            what = "Query Given"
-            await LOG_CHAT(message, what)
-            loser = await message.reply("🔎 **Pencarian**")
-            query = message.text.split(None, 1)[1]
-            search = ytsearch(query)
-            Q = 480
-            amaze = HighQualityVideo()
-            if search == 0:
-                await loser.edit("❌ **Tidak ada hasil yang ditemukan.**")
-            else:
-                songname = search[0]
-                url = search[1]
-                duration = search[2]
-                thumbnail = search[3]
-                veez, ytlink = await ytdl(url)
-                if veez == 0:
-                    await loser.edit(f"❌ yt-dl masalah terdeteksi\n\n» `{ytlink}`")
-                else:
-                    if chat_id in QUEUE:
-                        pos = add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
-                        await loser.delete()
-                        requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                        await message.reply_photo(
-                            photo="cache/IMG_20211230_211039_090.jpg",
-                            caption=f"""
+            if chat_id in QUEUE:
+                pos = add_to_queue(chat_id, title, ytlink, url, "Video", Q)
+                requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+                await message.reply_photo(
+                    photo="cache/IMG_20211230_211039_090.jpg",
+                    caption=f"""
 💡 **Trek ditambahkan ke antrian**
 
-🏷 **Nama:** [{songname[:999]}]({url})
+🏷 **Judul:** [{title[:999]}]({url})
 ⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
 
 #️⃣ **Posisi antrian** {pos}
 """,
-                            reply_markup=keyboard,
-                        )
-                    
-                    else:
+                    reply_markup=keyboard,
+                )
+            else:
+                try:
+                    if await is_active_chat(chat_id):
                         try:
-                            await call_py.join_group_call(
-                                chat_id,
-                                AudioVideoPiped(
-                                    ytlink,
-                                    HighQualityAudio(),
-                                    amaze,
-                                ),
-                                stream_type=StreamType().pulse_stream,
-                            )
-                            add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
-                            await loser.delete()
-                            requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                            thumb ="cache/IMG_20211230_165039_159.jpg"
-                            await message.reply_photo(
-                                photo="cache/IMG_20211230_211039_090.jpg",
-                                caption=f"""
+                            clear(chat_id)
+                        except QueueEmpty:
+                            pass
+                        await remove_active_chat(chat_id)
+                        await music.pytgcalls.leave_group_call(chat_id)
+                    await music.pytgcalls.join_group_call(
+                        chat_id,
+                        AudioVideoPiped(
+                            ytlink,
+                            HighQualityAudio(),
+                            amaze,
+                        ),
+                        stream_type=StreamType().pulse_stream,
+                    )
+                    add_to_queue(chat_id, title, ytlink, url, "Video", Q)
+                    await kz.delete()
+                    requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+                    await message.reply_photo(
+                        photo="cache/IMG_20211230_211039_090.jpg",
+                        caption=f"""
 ▷ **Memutar video dimulai**
 
-🏷 **Nama:** [{songname[:999]}]({url})
+🏷 **Judul:** [{title[:999]}]({url})
 ⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
 
 💬 **Diputar di:** {message.chat.title}
 """,
-                                reply_markup=keyboard,
-                            )
-                        except Exception as ep:
-                            await loser.delete()
-                            await message.reply_text(f"Error: `{ep}`")
+                        reply_markup=keyboard,
+                    )
+                except Exception as e:
+                    await message.reply_text(f"Error: `{e}`")
 
     else:
         if len(message.command) < 2:
@@ -318,8 +356,8 @@ async def vplay(c: Client, message: Message):
                 text=f"""
 **{rpk} Anda tidak memberikan judul.
 
-❌ Video tidak ditemukan atau anda tidak menulis judul lagu dengan benar!**
-✅ `/vplay duka`""",
+Coba berikan judul atau url untuk diputar!**
+» `/vplay duka`""",
             )
         else:
             what = "Command vplay"
@@ -378,9 +416,9 @@ async def vplay(c: Client, message: Message):
                 await message.reply(toxxt, disable_web_page_preview=True, reply_markup=key)
 
                 await loser.delete()
-                # kontol
+                # tolol
                 return
-                # kontol
+                # tolol
             except Exception as e:
                 await loser.edit(f"**❌ Error:** `{e}`")
                 return
@@ -408,9 +446,11 @@ async def vplay(c: Client, message: Message):
                     photo="cache/IMG_20211230_211039_090.jpg",
                     caption=f"""
 💡 **Trek ditambahkan ke antrian**
+
 🏷 **Judul:** [{songname[:999]}]({url})
 ⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
+
 #️⃣ **Posisi antrian** {pos}
 """,
                     reply_markup=keyboard,
@@ -440,9 +480,11 @@ async def vplay(c: Client, message: Message):
                         photo="cache/IMG_20211230_211039_090.jpg",
                         caption=f"""
 ▷ **Memutar video dimulai**
+
 🏷 **Judul:** [{songname[:999]}]({url})
 ⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
+
 💬 **Diputar di:** {message.chat.title}
 """,
                         reply_markup=keyboard,
@@ -505,9 +547,11 @@ async def kontol(_, CallbackQuery):
                 photo="cache/IMG_20211230_211039_090.jpg",
                 caption=f"""
 💡 **Trek ditambahkan ke antrian**
+
 🏷 **Judul:** [{songname[:999]}]({url})
 ⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
+
 #️⃣ **Posisi antrian** {pos}
 """,
                 reply_markup=keyboard,
@@ -537,9 +581,11 @@ async def kontol(_, CallbackQuery):
                     photo="cache/IMG_20211230_211039_090.jpg",
                     caption=f"""
 ▷ **Memutar video dimulai**
+
 🏷 **Judul:** [{songname[:999]}]({url})
 ⏱️ **Durasi:** {duration}
 🎧 **Atas permintaan:** {requester}
+
 💬 **Diputar di:** {CallbackQuery.message.chat.title}
 """,
                     reply_markup=keyboard,
@@ -547,27 +593,3 @@ async def kontol(_, CallbackQuery):
             except Exception as e:
                 os.remove(thumb)
                 await CallbackQuery.message.reply_text(f"**Error:** `{e}`")
-
-
-@app.on_message(command("vplaylist") & filters.group)
-async def playlist(client, m: Message):
-    chat_id = m.chat.id
-    if chat_id in QUEUE:
-        chat_queue = get_queue(chat_id)
-        if len(chat_queue) == 1:
-            await m.delete()
-            await m.reply(
-                f"**🎧 SEKARANG MEMUTAR:** \n[{chat_queue[0][0]}]({chat_queue[0][2]}) | `{chat_queue[0][3]}`",
-                disable_web_page_preview=True,
-            )
-        else:
-            QUE = f"**🎧 SEKARANG MEMUTAR:** \n[{chat_queue[0][0]}]({chat_queue[0][2]}) | `{chat_queue[0][3]}` \n\n**⏯ DAFTAR ANTRIAN:**"
-            l = len(chat_queue)
-            for x in range(1, l):
-                hmm = chat_queue[x][0]
-                hmmm = chat_queue[x][2]
-                hmmmm = chat_queue[x][3]
-                QUE = QUE + "\n" + f"**#{x}** - [{hmm}]({hmmm}) | `{hmmmm}`\n"
-            await m.reply(QUE, disable_web_page_preview=True)
-    else:
-        await m.reply("**❌ Tidak memutar apapun**")
