@@ -1,11 +1,9 @@
-# Mod of @Tomi_sn On Telegram
-
 import asyncio
 import os
 import random
 from asyncio import QueueEmpty
-
-from Music import BOT_NAME, BOT_USERNAME, GROUP, CHANNEL, app
+from Music.config GROUP, CHANNEL
+from Music import BOT_NAME, BOT_USERNAME, app
 from Music.MusicUtilities.database.queue import is_active_chat, remove_active_chat
 from Music.MusicUtilities.helpers.chattitle import CHAT_TITLE
 from Music.MusicUtilities.helpers.filters import command
@@ -371,7 +369,7 @@ Coba berikan judul atau url untuk diputar!**
                 data = result["result"]
             except BaseException:
                 await loser.edit("**Anda tidak memberikan judul lagu apapun !**")
-            # Hugo Music tolol
+            # kontol kalian
             try:
                 toxxt = f"**✨ Silahkan pilih video yang ingin anda putar {rpk} 🎧**\n\n"
                 j = 0
@@ -416,9 +414,9 @@ Coba berikan judul atau url untuk diputar!**
                 await message.reply(toxxt, disable_web_page_preview=True, reply_markup=key)
 
                 await loser.delete()
-                # tolol
+                # kontol
                 return
-                # tolol
+                # kontol
             except Exception as e:
                 await loser.edit(f"**❌ Error:** `{e}`")
                 return
