@@ -228,7 +228,7 @@ async def vplay(c: Client, message: Message):
                 await message.reply_photo(
                     photo="cache/IMG_20211230_211039_090.jpg",
                     caption=f"""
-▶️ **Streaming video dimulai**
+▷ **Streaming video dimulai**
 
 🏷 **Nama:** [{songname[:999]}]({link})
 🎧 **Atas permintaan:** {requester}
@@ -311,6 +311,242 @@ async def vplay(c: Client, message: Message):
                         except Exception as ep:
                             await loser.delete()
                             await message.reply_text(f"Error: `{ep}`")
+
+    else:
+        if len(message.command) < 2:
+            await message.reply_text(
+                text=f"""
+**{rpk} Anda tidak memberikan judul.
+
+❌ Video tidak ditemukan atau anda tidak menulis judul lagu dengan benar!**
+✅ `/vplay duka`""",
+            )
+        else:
+            what = "Command vplay"
+            await LOG_CHAT(message, what)
+            loser = await message.reply("**🔎 Pencarian...**")
+            query = message.text.split(None, 1)[1]
+            Q = 360
+            amaze = LowQualityVideo()
+            try:
+                result = VideosSearch(query, limit=5).result()
+                data = result["result"]
+            except BaseException:
+                await loser.edit("**Anda tidak memberikan judul lagu apapun !**")
+            # Hugo Music tolol
+            try:
+                toxxt = f"**✨ Silahkan pilih video yang ingin anda putar {rpk} 🎧**\n\n"
+                j = 0
+
+                emojilist = [
+                    "¹",
+                    "²",
+                    "³",
+                    "⁴",
+                    "⁵",
+                ]
+                while j < 5:
+                    toxxt += f"{emojilist[j]} **[{data[j]['title'][:25]}...]({data[j]['link']})**\n"
+                    toxxt += f"⏱ **Durasi:** {data[j]['duration']}\n"
+                    toxxt += f"💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{data[j]['id']})\n"
+                    toxxt += f"⚡ **Powered by:** {BOT_NAME}\n\n"
+                    j += 1
+                key = InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "¹", callback_data=f"plll 0|{query}|{user_id}"
+                            ),
+                            InlineKeyboardButton(
+                                "²", callback_data=f"plll 1|{query}|{user_id}"
+                            ),
+                            InlineKeyboardButton(
+                                "³", callback_data=f"plll 2|{query}|{user_id}"
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                "⁴", callback_data=f"plll 3|{query}|{user_id}"
+                            ),
+                            InlineKeyboardButton(
+                                "⁵", callback_data=f"plll 4|{query}|{user_id}"
+                            ),
+                        ],
+                        [InlineKeyboardButton("ᴛᴜᴛᴜᴘ", callback_data="cls")],
+                    ]
+                )
+                await message.reply(toxxt, disable_web_page_preview=True, reply_markup=key)
+
+                await loser.delete()
+                # kontol
+                return
+                # kontol
+            except Exception as e:
+                await loser.edit(f"**❌ Error:** `{e}`")
+                return
+            try:
+                songname = data["title"]
+                url = data["link"]
+                duration = data["duration"]
+                thumbnail = f"https://i.ytimg.com/vi/{data['id']}/hqdefault.jpg"
+                data["id"]
+            except BaseException:
+                await loser.edit(
+                    "**❌ Video tidak ditemukan.** berikan judul video yang valid."
+                )
+            theme = random.choice(themes)
+            srrf = message.chat.title
+            ctitle = await CHAT_TITLE(srrf)
+            userid = message.from_user.id
+            thumb = await gen_thumb(thumbnail, title, userid, theme, ctitle)
+            ytlink = await ytdl(url)
+            if chat_id in QUEUE:
+                pos = add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
+                await loser.delete()
+                requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+                await message.reply_photo(
+                    photo="cache/IMG_20211230_211039_090.jpg",
+                    caption=f"""
+💡 **Trek ditambahkan ke antrian**
+🏷 **Judul:** [{songname[:999]}]({url})
+⏱️ **Durasi:** {duration}
+🎧 **Atas permintaan:** {requester}
+#️⃣ **Posisi antrian** {pos}
+""",
+                    reply_markup=keyboard,
+                )
+            else:
+                try:
+                    if await is_active_chat(chat_id):
+                        try:
+                            clear(chat_id)
+                        except QueueEmpty:
+                            pass
+                        await remove_active_chat(chat_id)
+                        await music.pytgcalls.leave_group_call(chat_id)
+                    await music.pytgcalls.join_group_call(
+                        chat_id,
+                        AudioVideoPiped(
+                            ytlink,
+                            HighQualityAudio(),
+                            amaze,
+                        ),
+                        stream_type=StreamType().pulse_stream,
+                    )
+                    add_to_queue(chat_id, title, ytlink, url, "Video", Q)
+                    await loser.delete()
+                    requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+                    await message.reply_photo(
+                        photo="cache/IMG_20211230_211039_090.jpg",
+                        caption=f"""
+▷ **Memutar video dimulai**
+🏷 **Judul:** [{songname[:999]}]({url})
+⏱️ **Durasi:** {duration}
+🎧 **Atas permintaan:** {requester}
+💬 **Diputar di:** {message.chat.title}
+""",
+                        reply_markup=keyboard,
+                    )
+                except Exception as ep:
+                    await loser.delete()
+                    await message.reply_text(f"Error: `{ep}`")
+
+
+@Client.on_callback_query(filters.regex(pattern=r"plll"))
+async def kontol(_, CallbackQuery):
+    keyboard = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{GROUP}"),
+                InlineKeyboardButton("ᴜᴘᴅᴀᴛᴇs", url=f"https://t.me/{CHANNEL}"),
+            ]
+        ]
+    )
+    chat_id = CallbackQuery.message.chat.id
+    userid = CallbackQuery.from_user.id
+    callback_data = CallbackQuery.data.strip()
+    CallbackQuery.message.chat.title
+    callback_request = callback_data.split(None, 1)[1]
+    try:
+        x, query, user_id = callback_request.split("|")
+    except Exception as e:
+        await CallbackQuery.message.reply_text(f"âŒ **Error:** `{e}`")
+        return
+    if CallbackQuery.from_user.id != int(user_id):
+        return await CallbackQuery.answer(
+            "Ini bukan untukmu! Cari Video Anda Sendiri", show_alert=True
+        )
+    await CallbackQuery.message.delete()
+    requester = f"[{CallbackQuery.from_user.first_name}](tg://user?id={CallbackQuery.from_user.id})"
+    x = int(x)
+    Q = 360
+    amaze = HighQualityVideo()
+    a = VideosSearch(query, limit=5)
+    data = (a.result()).get("result")
+    songname = data[x]["title"]
+    title = data[x]["title"]
+    data[x]["id"]
+    duration = data[x]["duration"]
+    url = f"https://www.youtube.com/watch?v={data[x]['id']}"
+    thumbnail = f"https://i.ytimg.com/vi/{data[x]['id']}/hqdefault.jpg"
+    theme = random.choice(themes)
+    srrf = CallbackQuery.message.chat.title
+    ctitle = await CHAT_TITLE(srrf)
+    thumb = await gen_thumb(thumbnail, title, userid, theme, ctitle)
+    kz, ytlink = await ytdl(url)
+    if kz == 0:
+        await CallbackQuery.message.reply_text(
+            f"❌ yt-dl masalah terdeteksi\n\n» `{ytlink}`"
+        )
+    else:
+        if chat_id in QUEUE:
+            pos = add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
+            await message.reply_photo(
+                photo="cache/IMG_20211230_211039_090.jpg",
+                caption=f"""
+💡 **Trek ditambahkan ke antrian**
+🏷 **Judul:** [{songname[:999]}]({url})
+⏱️ **Durasi:** {duration}
+🎧 **Atas permintaan:** {requester}
+#️⃣ **Posisi antrian** {pos}
+""",
+                reply_markup=keyboard,
+            )
+            os.remove(thumb)
+            await CallbackQuery.message.delete()
+        else:
+            try:
+                if await is_active_chat(chat_id):
+                    try:
+                        clear(chat_id)
+                    except QueueEmpty:
+                        pass
+                    await remove_active_chat(chat_id)
+                    await music.pytgcalls.leave_group_call(chat_id)
+                await music.pytgcalls.join_group_call(
+                    chat_id,
+                    AudioVideoPiped(
+                        ytlink,
+                        HighQualityAudio(),
+                        amaze,
+                    ),
+                    stream_type=StreamType().pulse_stream,
+                )
+                add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
+                await message.reply_photo(
+                    photo="cache/IMG_20211230_211039_090.jpg",
+                    caption=f"""
+▷ **Memutar video dimulai**
+🏷 **Judul:** [{songname[:999]}]({url})
+⏱️ **Durasi:** {duration}
+🎧 **Atas permintaan:** {requester}
+💬 **Diputar di:** {CallbackQuery.message.chat.title}
+""",
+                    reply_markup=keyboard,
+                )
+            except Exception as e:
+                os.remove(thumb)
+                await CallbackQuery.message.reply_text(f"**Error:** `{e}`")
 
 
 @app.on_message(command("vplaylist") & filters.group)
