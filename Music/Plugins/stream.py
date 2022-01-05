@@ -209,9 +209,9 @@ async def vplay(c: Client, message: Message):
                 pos = add_to_queue(chat_id, title, dl, link, "Video", Q)
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                await message.reply_photo(
-                    photo="cache/IMG_20211230_211039_090.jpg",
-                    caption=f"""
+                await app.send_message(
+                    chat_id,
+                    f"""
 💡 **Trek ditambahkan ke antrian**
 
 🏷 **Judul:** [{title[:999]}]({link})
@@ -249,9 +249,9 @@ async def vplay(c: Client, message: Message):
                 add_to_queue(chat_id, title, dl, link, "Video", Q)
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                await message.reply_photo(
-                    photo="cache/IMG_20211230_211039_090.jpg",
-                    caption=f"""
+                await app.send_message(
+                    chat_id,
+                    f"""
 ▷ **Memutar video dimulai**
 
 🏷 **Judul:** [{title[:999]}]({link})
@@ -298,8 +298,9 @@ async def vplay(c: Client, message: Message):
             if chat_id in QUEUE:
                 pos = add_to_queue(chat_id, title, ytlink, url, "Video", Q)
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                await message.reply_photo(
-                    photo="cache/IMG_20211230_211039_090.jpg",
+                await app.send_photo(
+                    chat_id,
+                    photo=thumb,
                     caption=f"""
 💡 **Trek ditambahkan ke antrian**
 
@@ -332,8 +333,9 @@ async def vplay(c: Client, message: Message):
                     add_to_queue(chat_id, title, ytlink, url, "Video", Q)
                     await kz.delete()
                     requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                    await message.reply_photo(
-                        photo="cache/IMG_20211230_211039_090.jpg",
+                    await app.send_photo(
+                        chat_id,
+                        photo=thumb,
                         caption=f"""
 ▷ **Memutar video dimulai**
 
@@ -371,7 +373,7 @@ Coba berikan judul atau url untuk diputar!**
                 await loser.edit("**Anda tidak memberikan judul lagu apapun !**")
             # kontol kalian
             try:
-                toxxt = f"**✨ Silahkan pilih video yang ingin anda putar {rpk} 🎧**\n\n"
+                toxxt = f"**✨ Silahkan pilih video yang ingin anda putar**\n\n"
                 j = 0
 
                 emojilist = [
@@ -440,8 +442,9 @@ Coba berikan judul atau url untuk diputar!**
                 pos = add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
                 await loser.delete()
                 requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
-                await message.reply_photo(
-                    photo="cache/IMG_20211230_211039_090.jpg",
+                await app.send_photo(
+                    chat_id,
+                    photo=thumb,
                     caption=f"""
 💡 **Trek ditambahkan ke antrian**
 
@@ -475,7 +478,8 @@ Coba berikan judul atau url untuk diputar!**
                     await loser.delete()
                     requester = f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
                     await message.reply_photo(
-                        photo="cache/IMG_20211230_211039_090.jpg",
+                        chat_id,
+                        photo=thumb,
                         caption=f"""
 ▷ **Memutar video dimulai**
 
@@ -541,8 +545,9 @@ async def kontol(_, CallbackQuery):
     else:
         if chat_id in QUEUE:
             pos = add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
-            await message.reply_photo(
-                photo="cache/IMG_20211230_211039_090.jpg",
+            await app.send_photo(
+                chat_id,
+                photo=thumb,
                 caption=f"""
 💡 **Trek ditambahkan ke antrian**
 
@@ -575,8 +580,9 @@ async def kontol(_, CallbackQuery):
                     stream_type=StreamType().pulse_stream,
                 )
                 add_to_queue(chat_id, songname, ytlink, url, "Video", Q)
-                await message.reply_photo(
-                    photo="cache/IMG_20211230_211039_090.jpg",
+                await app.send_photo(
+                    chat_id,
+                    photo=thumb,
                     caption=f"""
 ▷ **Memutar video dimulai**
 
