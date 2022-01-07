@@ -140,7 +140,7 @@ que = {}
 
 
 @app.on_message(
-    command("music") & ~filters.edited & ~filters.bot & ~filters.private
+    command("musicp") & ~filters.edited & ~filters.bot & ~filters.private
 )
 @authorized_users_only
 async def music_onoff(_, message: Message):
@@ -153,14 +153,14 @@ async def music_onoff(_, message: Message):
     except:
         return
     if len(message.command) != 2:
-        await message.reply_text("**• usage:**\n\n `/music on` & `/music off`")
+        await message.reply_text("**• usage:**\n\n `/musicp on` & `/musicp off`")
         return
     status = message.text.split(None, 1)[1]
     message.chat.id
     if status in ("ON", "on", "On"):
         lel = await message.reply("`processing...`")
         if not message.chat.id in DISABLED_GROUPS:
-            await lel.edit("» **Music Aktif Dek.**")
+            await lel.edit("» **Music Aktif.**")
             return
         DISABLED_GROUPS.remove(message.chat.id)
         await lel.edit(
@@ -171,15 +171,15 @@ async def music_onoff(_, message: Message):
         lel = await message.reply("`processing...`")
 
         if message.chat.id in DISABLED_GROUPS:
-            await lel.edit("» **Music Ga Aktif Tolol.**")
+            await lel.edit("» **Music Di Nonaktifkan.**")
             return
         DISABLED_GROUPS.append(message.chat.id)
         await lel.edit(
-            f"**✅ Music Telah Di Nonaktifkan Di {message.chat.title} Biar Ga Makin Tolol Musickan Terus!**"
+            f"**✅ Music Telah Di Nonaktifkan Di {message.chat.title}**"
         )
     else:
         await message.reply_text(
-            "**• Penggunaan:**\n\n `/music on` & `/music off`"
+            "**• Penggunaan:**\n\n `/musicp on` & `/musicp off`"
         )
 
 
