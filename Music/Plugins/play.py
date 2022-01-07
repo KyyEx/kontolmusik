@@ -140,7 +140,7 @@ que = {}
 
 
 @app.on_message(
-    command("musicp") & ~filters.edited & ~filters.bot & ~filters.private
+    command("music") & ~filters.edited & ~filters.bot & ~filters.private
 )
 @authorized_users_only
 async def music_onoff(_, message: Message):
@@ -153,7 +153,7 @@ async def music_onoff(_, message: Message):
     except:
         return
     if len(message.command) != 2:
-        await message.reply_text("**• usage:**\n\n `/musicp on` & `/musicp off`")
+        await message.reply_text("**• usage:**\n\n `/music on` & `/music off`")
         return
     status = message.text.split(None, 1)[1]
     message.chat.id
@@ -179,7 +179,7 @@ async def music_onoff(_, message: Message):
         )
     else:
         await message.reply_text(
-            "**• Penggunaan:**\n\n `/musicp on` & `/musicp off`"
+            "**• Penggunaan:**\n\n `/music on` & `/music off`"
         )
 
 
