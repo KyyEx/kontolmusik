@@ -196,7 +196,7 @@ Kembalikan kembali ke Akun Pengguna Dari Hak Admin.
     global useer
     if chat_id in DISABLED_GROUPS:
         return await message.reply_text(
-            f"😕 **Tolol {message.from_user.mention}, Musicnya Dimatiin Sama Admin**" 
+            f"😕 **Maap {message.from_user.mention}, Musicnya Dimatiin Sama Admin**" 
         )
         return
     user_id = message.from_user.id
