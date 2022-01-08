@@ -191,7 +191,7 @@ async def start_command(_, message):
                 reply_markup=key,
             )
 
-@app.on_message(filters.command("settings") & filters.group)
+@app.on_message(filters.command("setting") & filters.group)
 async def settings(_, message: Message):
     c_id = message.chat.id
     _check = await get_assistant(c_id, "assistant")
