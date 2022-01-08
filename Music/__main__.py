@@ -13,7 +13,7 @@ from Music.MusicUtilities.database.queue import (get_active_chats, remove_active
 from Music.MusicUtilities.tgcallsrun import run
 from pytgcalls import idle
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
-from Music.MusicUtilities.database.autoleave import leave_from_inactive_call
+from Music.MusicUtilities.helpers.autoleave import leave_from_inactive_call
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
