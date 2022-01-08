@@ -24,5 +24,5 @@ async def leave_from_inactive_call():
             if chat_id not in all_chat_id:
                 try:
                     await user.leave_chat(chat_id)
-                except PeerIdInvalid:
+                except (PeerIdInvalid, UserNotParticipant):
                     pass
