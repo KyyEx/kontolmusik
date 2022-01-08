@@ -30,5 +30,5 @@ telegraph
 hachoir
 lyricsgenius
 httpx>=0.14.2
-pytz
-APScheduler
+pytz==2021.3
+APScheduler==3.8.1
