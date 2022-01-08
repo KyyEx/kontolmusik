@@ -5,13 +5,13 @@ from Music import SUDOERS, app
 from Music.MusicUtilities.database.auth import (_get_authusers, delete_authuser, get_authuser,
                             get_authuser_count, get_authuser_names,
                             save_authuser)
-from Music.MusicUtilities.helpers.admins import AdminActual
+from Music.MusicUtilities.helpers.decorators import authorized_users_only
 from Music.MusicUtilities.database.changers import (alpha_to_int, int_to_alpha,
                                       time_to_seconds)
 
 
 @app.on_message(filters.command("auth") & filters.group)
-@AdminActual
+@authorized_users_only
 async def auth(_, message: Message):
     if not message.reply_to_message:
         if len(message.command) != 2:
@@ -80,7 +80,7 @@ async def auth(_, message: Message):
 
 
 @app.on_message(filters.command("unauth") & filters.group)
-@AdminActual
+@authorized_users_only
 async def whitelist_chat_func(_, message: Message):
     if not message.reply_to_message:
         if len(message.command) != 2:
