@@ -2,14 +2,9 @@
     "name": "KyyMusic",
     "description": "Music allow you to stream music trought the telegram voice chat feature.",
     "keywords": ["music", "voice chat", "telegram"],
-    "repository": "https://github.com/muhamadrizky16/KyyMusic",
+    "repository": "https://github.com/muhamadrizky16/KyyXMusic",
     "stack": "container",
     "env": {
-        "AUTO_LEAVE": {
-            "description": "Fill with seconds (for autoleave assistant. if no need, fill with (0)",
-            "required": true
-            " value": "1500"
-        },
         "SESSION_NAME": {
             "description": "fill with the pyrogram session string from account",
             "required": true
@@ -63,6 +58,11 @@
             "description": "fill with your bot token get from @BotFather on telegram",
             "required": true,
             "value": ""
+        },
+        "AUTO_LEAVE": {
+            "description": "Fill with seconds (for autoleave assistant. if no need, fill with (0)",
+            "required": true
+            " value": "1500"
         },
         "MONGO_DB_URI": {
             "description": "fill with the mongodb url get from mongodb.cloud.com (don't use mine below !)",
