@@ -82,10 +82,7 @@ YukkiMusicPlayer is a modified version of [Callsmusic](https://github.com/callsm
 > And credits goes to all who supported, all who helped and API & environmental requirement package devs and all projects helped in making this project.
 > Special thanks to you for using bot
 
-<h2 align="center">
-   Metode Deploy
-</h2>
+# DEPLOY
 
-<p align="center">
-<a href="https://railway.app/new/template?template=https://github.com/muhammadrizky16/KyyXMusic&envs=BOT_TOKEN%2CAPI_ID%2CAPI_HASH%2CSESSION_NAME%2CSUDO_USERS%2COWNER_ID%2CDURATION_LIMIT%2CCHANNEL%2CMONGO_DB_URI%2CLOG_GROUP_ID%2CASS_ID%2CGROUP&optionalEnvs=CHANNEL%2CGROUPCSUPPORT_CHANNEL%2CMONGO_DB_URI%2CLOG_GROUP_ID%2CASSISTANT_PREFIX%2CMUSIC_BOT_NAME%2CSUPPORT_GROUP&optionalEnvs=SUPPORT_CHANNEL%2CSUPPORT_GROUP"><img src="https://img.shields.io/badge/Deploy%20To%20Railway-blueviolet?style=for-the-badge&logo=railway" width="252""/</a>
-<a href="https://dashboard.heroku.com/new?template=https://github.com/muhammadrizky16/KyyXMusic"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="250""/</a>  
+<p align="center"><a href="https://heroku.com/deploy?template=https://github.com/muhammadrizky16/KyyXMusic">
+  <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-black?style=flat&logo=heroku" width="325" height="50.100" /></a></p>
