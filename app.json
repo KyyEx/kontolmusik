@@ -59,11 +59,6 @@
             "required": true,
             "value": ""
         },
-        "AUTO_LEAVE": {
-            "description": "Fill with seconds (for autoleave assistant. if no need, fill with (0)",
-            "required": true
-            " value": "1500"
-        },
         "MONGO_DB_URI": {
             "description": "fill with the mongodb url get from mongodb.cloud.com (don't use mine below !)",
             "required": true,
