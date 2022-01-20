@@ -385,8 +385,8 @@ Coba berikan judul atau url untuk diputar!**
                 ]
                 while j < 5:
                     toxxt += f"{emojilist[j]} **[{data[j]['title'][:25]}...]({data[j]['link']})**\n"
-                    toxxt += f"💡 [More Information](https://t.me/{BOT_USERNAME}?start=info_{data[j]['id']})\n"
-                    toxxt += f"⚡ **Powered by:** {BOT_NAME}\n\n"
+                    toxxt += f"┗ 💡 __[More Information](https://t.me/{BOT_USERNAME}?start=info_{data[j]['id']})__\n"
+                    toxxt += f"┗ ⚡ __Powered by: {BOT_NAME}__\n\n"
                     j += 1
                 key = InlineKeyboardMarkup(
                     [
