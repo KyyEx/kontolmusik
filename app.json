@@ -76,7 +76,7 @@
         },
         "UPSTREAM_BRANCH": {
             "description": "Repo's Branch Name",
-            "value": "main",
+            "value": "master",
             "required": true
         },
         "MONGO_DB_URI": {
