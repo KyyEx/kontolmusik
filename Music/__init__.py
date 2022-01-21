@@ -22,11 +22,9 @@ from Music.MusicUtilities.helpers.tasks import install_requirements
 
 console = Console()
 
-
 def initialize():
     global dbb
     dbb = {}
-
 
 ### Mongo DB
 MONGODB_CLI = Bot(mango)
@@ -46,7 +44,6 @@ initialize()
 
 UPSTREAM_BRANCH = UPSTREAM_BRANCH
 UPSTREAM_REPO = UPSTREAM_REPO
-
 
 print("[INFO]: INITIALIZING DATABASE")
 MONGODB_CLI = MongoClient(MONGO_DB_URI)
