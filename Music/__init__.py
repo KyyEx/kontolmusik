@@ -1,24 +1,37 @@
 print("[INFO]: INITIALIZING")
-from pyrogram import Client
 import asyncio
-from Music.config import API_ID, API_HASH, BOT_TOKEN, MONGO_DB_URI, SUDO_USERS, UPSTREAM_BRANCH, UPSTREAM_REPO
-from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
+import importlib
 import time
-import uvloop
-from os import listdir, mkdir
+
 from rich.console import Console
 import heroku3
-from Music import config
-import importlib
-from pyrogram import Client as Bot
-from Music.config import API_ID, API_HASH, BOT_TOKEN, MONGO_DB_URI, SUDO_USERS, LOG_GROUP_ID, OWNER_ID, CHANNEL, GROUP
-from pyrogram import Client
+import uvloop
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
-import time
+from motor.motor_asyncio import AsyncIOMotorClient as Bot
+from Music.config import MONGO_DB_URI as mango
+from pyrogram import Client
+from pyrogram import Client as Bot
+from os import listdir, mkdir
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError
+
 from Music.MusicUtilities.helpers.tasks import install_requirements
+from Music.converter.cli import app, userbot
+from Music import config
+from Music.config import (
+    API_HASH,
+    API_ID,
+    BOT_TOKEN,
+    LOG_GROUP_ID,
+    MONGO_DB_URI,
+    OWNER_ID,
+    UPSTREAM_BRANCH, 
+    UPSTREAM_REPO,
+    SUDO_USERS,
+    CHANNEL,
+    GROUP,
+)
 
 console = Console()
 
