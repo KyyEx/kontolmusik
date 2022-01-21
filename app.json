@@ -14,16 +14,6 @@
             "required": true,
             "value": ""
         },
-        "OWNER_NAME": {
-            "description": "Your name",
-            "value": "",
-            "required": true
-        },
-        "OWNER_USERMAME": {
-            "description": "Your username whitout @.",
-            "value": "",
-            "required": true
-        },
         "ASS_ID": {
             "description": "fill with telegram id of account",
             "required": true,
