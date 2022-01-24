@@ -16,6 +16,7 @@ from pyrogram.types import Message, Voice
 from pytgcalls import StreamType
 from pytgcalls.types.input_stream import InputAudioStream, InputStream
 from sys import version as pyver
+from Music.MusicUtilities.helpers.subcribe import subcribe
 from Music.config import CHANNEL
 from Music import (
     dbb,
@@ -184,55 +185,10 @@ async def music_onoff(_, message: Message):
         )
 
 
-BANNED_USERS = set(int(x) for x in os.getenv("BANNED_USERS", "").split())
-CHANNEL = os.getenv("CHANNEL")
-
-
 @Client.on_message(command(["play", f"play@{BOT_USERNAME}", "p"]))
+@subcribe
 async def play(_, message: Message):
     chat_id = message.chat.id
-    user_id = message.from_user.id
-    user_name = message.from_user.first_name
-    rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
-    if chat_id in BANNED_USERS:
-        await app.send_message(
-            chat_id,
-            text=f"**❌ Anda telah di ban\nUbtuk menggunakan bot anda harus join di [ᴄʜᴀɴɴᴇʟ](https://t.me/{CHANNEL})**",
-            reply_to_message_id=message.message_id,
-        )
-        return
-    ## Doing Force Sub 🤣
-    channel = CHANNEL
-    if channel:
-        try:
-            user = await app.get_chat_member(channel, user_id)
-            if user.status == "kicked":
-                await app.send_message(
-                    chat_id,
-                    text=f"**❌ Anda telah di ban\nUbtuk menggunakan bot anda harus join di [ᴄʜᴀɴɴᴇʟ](https://t.me/{CHANNEL})**",
-                    parse_mode="markdown",
-                    disable_web_page_preview=True,
-                )
-                return
-        except UserNotParticipant:
-            await app.send_message(
-                chat_id,
-                text=f"""
-**Halo {rpk} Untuk menghindari penggunaan yang berlebihan bot ini di khususkan untuk yang sudah join di group kami!**
-""",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "ᴄʜᴀɴɴᴇʟ",
-                                url=f"https://t.me/{CHANNEL}",
-                            )
-                        ]
-                    ]
-                ),
-                parse_mode="markdown",
-            )
-            return
     if message.sender_chat:
         return await message.reply_text(
             """
