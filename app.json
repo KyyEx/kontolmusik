@@ -54,6 +54,11 @@
             "required": true,
             "value": "NastyProject"
         },
+        "MUST_JOIN": {
+            "description": "fsub join",
+            "required": true,
+            "value": "-1001665193727"
+        },
         "SUDO_USERS": {
             "description": "fill with the user id who can access all function in your bot (separate with space).",
             "required": true,
