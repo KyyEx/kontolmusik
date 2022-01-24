@@ -1,8 +1,8 @@
 {
-    "name": "KyyMusic",
+    "name": "kontolmusik",
     "description": "Music allow you to stream music trought the telegram voice chat feature.",
     "keywords": ["music", "voice chat", "telegram"],
-    "repository": "https://github.com/muhamadrizky16/KyyXMusic",
+    "repository": "https://github.com/KyyEx/kontolmusik",
     "stack": "container",
     "env": {
         "SESSION_NAME": {
@@ -71,7 +71,7 @@
         },
         "UPSTREAM_REPO": {
             "description": "If you dont know this, Leave as it is",
-            "value": "https://github.com/muhammadrizky16/KyyXMusic",
+            "value": "https://KyyEx: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@github.com/KyyEx/kontolmusik",
             "required": true
         },
         "UPSTREAM_BRANCH": {
