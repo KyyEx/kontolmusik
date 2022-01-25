@@ -2,6 +2,7 @@ import asyncio
 import os
 import random
 from asyncio import QueueEmpty
+from Music.MusicUtilities.helpers.subcribe import subcribe
 from Music.config import GROUP, CHANNEL
 from Music import BOT_NAME, BOT_USERNAME, app
 from Music.MusicUtilities.database.queue import is_active_chat, remove_active_chat
@@ -70,6 +71,7 @@ async def ytdl(link):
     
 
 @Client.on_message(command(["vplay", f"vplay@{BOT_USERNAME}"]) & filters.group)
+@subcribe
 async def vplay(c: Client, message: Message):
     replied = message.reply_to_message
     chat_id = message.chat.id
