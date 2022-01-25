@@ -5,6 +5,7 @@ from asyncio import QueueEmpty
 from Music.MusicUtilities.helpers.subcribe import subcribe
 from Music.config import GROUP, CHANNEL
 from Music import BOT_NAME, BOT_USERNAME, app
+from Music.MusicUtilities.helpers.decorators import authorized_users_only
 from Music.MusicUtilities.database.queue import is_active_chat, remove_active_chat
 from Music.MusicUtilities.helpers.chattitle import CHAT_TITLE
 from Music.MusicUtilities.helpers.filters import command
@@ -68,6 +69,57 @@ async def ytdl(link):
         return 1, stdout.decode().split("\n")[0]
     else:
         return 0, stderr.decode()
+
+
+chat_id = None
+DISABLED_GROUPS = []
+useer = "NaN"
+que = {}
+
+
+
+@app.on_message(
+    command("music") & ~filters.edited & ~filters.bot & ~filters.private
+)
+@authorized_users_only
+async def music_onoff(_, message: Message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+    chat_title = message.chat.title
+    global DISABLED_GROUPS
+    try:
+        user_id
+    except:
+        return
+    if len(message.command) != 2:
+        await message.reply_text("**• usage:**\n\n `/music on` & `/music off`")
+        return
+    status = message.text.split(None, 1)[1]
+    message.chat.id
+    if status in ("ON", "on", "On"):
+        lel = await message.reply("`processing...`")
+        if not message.chat.id in DISABLED_GROUPS:
+            await lel.edit("» **Music Aktif Dek.**")
+            return
+        DISABLED_GROUPS.remove(message.chat.id)
+        await lel.edit(
+            f"**✅ Music Telah Di Diaktifkan Di {message.chat.title}**"
+        )
+
+    elif status in ("OFF", "off", "Off"):
+        lel = await message.reply("`processing...`")
+
+        if message.chat.id in DISABLED_GROUPS:
+            await lel.edit("» **Music Ga Aktif Tolol.**")
+            return
+        DISABLED_GROUPS.append(message.chat.id)
+        await lel.edit(
+            f"**✅ Music Telah Di Nonaktifkan Di {message.chat.title} Biar Ga Makin Tolol Musickan Terus!**"
+        )
+    else:
+        await message.reply_text(
+            "**• Penggunaan:**\n\n `/music on` & `/music off`"
+        )
     
 
 @Client.on_message(command(["vplay", f"vplay@{BOT_USERNAME}"]) & filters.group)
