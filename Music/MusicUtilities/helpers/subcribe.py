@@ -23,7 +23,7 @@ def subcribe(func):
                     chat_info.invite_link
                 try:
                     await message.reply(
-                        f"ʜɪ {rpk} ᴊɪᴋᴀ ɪɴɢɪɴ ᴍᴇɴɢɢᴜɴᴋᴀɴ ʙᴏᴛ sɪʟᴀʜᴋᴀɴ ʙᴇʀɢᴀʙᴜɴɢ ᴋᴇ ᴄʜᴀɴɴᴇʟ ᴛᴇʀʟᴇʙɪʜ ᴅᴀʜᴜʟᴜ​",
+                        f"​ʜɪ {rpk} ᴊɪᴋᴀ ɪɴɢɪɴ ᴍᴇɴɢɢᴜɴᴀᴋᴀɴ ʙᴏᴛ sɪʟᴀʜᴋᴀɴ ʙᴇʀɢᴀʙᴜɴɢ ᴋᴇ ᴄʜᴀɴɴᴇʟ ᴛᴇʀʟᴇʙɪʜ ᴅᴀʜᴜʟᴜ​",
                         disable_web_page_preview=True,
                         reply_markup=InlineKeyboardMarkup(
                             [[InlineKeyboardButton("ꜱɪʟᴀʜᴋᴀɴ ᴊᴏɪɴ", url=link)]]
