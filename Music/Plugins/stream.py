@@ -127,6 +127,12 @@ async def music_onoff(_, message: Message):
 async def vplay(c: Client, message: Message):
     replied = message.reply_to_message
     chat_id = message.chat.id
+    global useer
+    if chat_id in DISABLED_GROUPS:
+        return await message.reply_text(
+            f"😕 **Maap {message.from_user.mention}, Musicnya Dimatiin Sama Admin**" 
+        )
+        return
     user_id = message.from_user.id
     user_name = message.from_user.first_name
     rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
