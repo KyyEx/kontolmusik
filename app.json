@@ -56,7 +56,7 @@
         },
         "MUST_JOIN": {
             "description": "fsub join",
-            "required": false,
+            "required": true,
             "value": "-1001665193727"
         },
         "SUDO_USERS": {
