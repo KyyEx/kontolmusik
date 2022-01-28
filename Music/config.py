@@ -22,7 +22,7 @@ UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://KyyEx: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@github.com/KyyEx/kontolmusik")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
-AUTO_LEAVE = int(getenv("AUTO_LEAVE", "1500"))
+AUTO_LEAVE = int(getenv("AUTO_LEAVE", "2000"))
 MUST_JOIN = getenv("MUST_JOIN", None)
 if MUST_JOIN.startswith("@"):
     MUST_JOIN = MUST_JOIN.replace("@", "")
