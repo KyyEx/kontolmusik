@@ -142,7 +142,7 @@ que = {}
 
 
 @app.on_message(
-    command("music") & ~filters.edited & ~filters.bot & ~filters.private
+    command("musicplayer") & ~filters.edited & ~filters.bot & ~filters.private
 )
 @authorized_users_only
 async def music_onoff(_, message: Message):
